@@ -24,6 +24,10 @@ export function getUpdatesFromClasses(elementOrClasses) {
     return getUpdatesFromClasses(elementOrClasses.split(' '));
   }
 
+  if (elementOrClasses instanceof window.HTMLElement) {
+    return getUpdatesFromClasses([...elementOrClasses.classList]);
+  }
+
   return elementOrClasses
     .filter(c => /^js-with-js--.+/.test(c))
     .map(c => {

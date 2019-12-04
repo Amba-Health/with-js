@@ -1,6 +1,9 @@
 import test from 'ava';
 import { getUpdatesFromClasses } from '../lib';
 
+import browserEnv from 'browser-env';
+browserEnv();
+
 test('with no arguments', t => {
   t.deepEqual([['operation']], getUpdatesFromClasses('js-with-js--operation'));
 });
@@ -64,5 +67,19 @@ test('with array', t => {
       'js-with-js--operation1__argument1',
       'js-with-js--operation2__argument1--argument2--argument3'
     ])
+  );
+});
+
+test('with HTMLElement', t => {
+  const el = document.createElement('a');
+  el.className =
+    'js-with-js--operation1__argument1 js-with-js--operation2__argument1--argument2--argument3';
+
+  t.deepEqual(
+    [
+      ['operation1', 'argument1'],
+      ['operation2', 'argument1', 'argument2', 'argument3']
+    ],
+    getUpdatesFromClasses(el)
   );
 });
