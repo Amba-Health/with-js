@@ -4,82 +4,45 @@ import { getUpdatesFromClasses } from '../lib';
 import browserEnv from 'browser-env';
 browserEnv();
 
-test('with no arguments', t => {
-  t.deepEqual([['operation']], getUpdatesFromClasses('js-with-js--operation'));
-});
-test('with multiple classes', t => {
-  t.deepEqual(
-    [['operation1'], ['operation2']],
-    getUpdatesFromClasses('js-with-js--operation1 js-with-js--operation2')
-  );
-});
-test('with missing operation name', t => {
-  t.deepEqual(
-    [['operation1'], ['operation2']],
-    getUpdatesFromClasses(
-      'js-with-js--operation1 js-with-js-- js-with-js js-with-js--operation2'
-    )
-  );
-});
-test('with marker not starting class', t => {
-  t.deepEqual(
-    [['operation1'], ['operation2']],
-    getUpdatesFromClasses(
-      'js-with-js--operation1 some-js-with-js--class js-with-js--operation2'
-    )
-  );
-});
+const EXPECTED_UPDATES = [
+  ['operation1', 'argument1'],
+  ['operation2', 'argument1', 'argument2', 'argument3'],
+  ['operation3']
+];
 
-test('with non marked classes', t => {
-  t.deepEqual(
-    [['operation1'], ['operation2']],
-    getUpdatesFromClasses(
-      'js-with-js--operation1 non-marked js-with-js--operation2'
-    )
-  );
-});
-test('with double spaces', t => {
-  t.deepEqual(
-    [['operation1'], ['operation2']],
-    getUpdatesFromClasses(' js-with-js--operation1   js-with-js--operation2 ')
-  );
-});
+const CLASSES = [
+  // Triggers a leading space when turned into string
+  '',
+  // One argument
+  'js-with-js--operation1__argument1',
+  // Triggers multiple spaces when turned into string
+  '  ',
+  // Marker not at the start
+  'some-js-with-js--operation',
+  // Marker without operation
+  'js-with-js--',
+  // Multiple arguments
+  'js-with-js--operation2__argument1--argument2--argument3',
+  // No arguments
+  'js-with-js--operation3',
+  // Triggers a trailing space  when turned into string
+  ' '
+];
 
-test('with arguments', t => {
-  t.deepEqual(
-    [
-      ['operation1', 'argument1'],
-      ['operation2', 'argument1', 'argument2', 'argument3']
-    ],
-    getUpdatesFromClasses(
-      'js-with-js--operation1__argument1 js-with-js--operation2__argument1--argument2--argument3'
-    )
-  );
-});
+test('with array', testGetUpdatesFromClass, CLASSES);
 
-test('with array', t => {
-  t.deepEqual(
-    [
-      ['operation1', 'argument1'],
-      ['operation2', 'argument1', 'argument2', 'argument3']
-    ],
-    getUpdatesFromClasses([
-      'js-with-js--operation1__argument1',
-      'js-with-js--operation2__argument1--argument2--argument3'
-    ])
-  );
-});
+test('with string', testGetUpdatesFromClass, CLASSES.join(' '));
 
-test('with HTMLElement', t => {
-  const el = document.createElement('a');
-  el.className =
-    'js-with-js--operation1__argument1 js-with-js--operation2__argument1--argument2--argument3';
+test(
+  'with HTMLElement',
+  testGetUpdatesFromClass,
+  (() => {
+    const el = document.createElement('a');
+    el.className = CLASSES.join(' ');
+    return el;
+  })()
+);
 
-  t.deepEqual(
-    [
-      ['operation1', 'argument1'],
-      ['operation2', 'argument1', 'argument2', 'argument3']
-    ],
-    getUpdatesFromClasses(el)
-  );
-});
+function testGetUpdatesFromClass(t, input, expected = EXPECTED_UPDATES) {
+  t.deepEqual(expected, getUpdatesFromClasses(input));
+}
