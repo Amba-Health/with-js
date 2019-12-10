@@ -16,27 +16,29 @@ Because there's no guarantee JavaScript will load, they should not be present in
 Usage
 ---
 
-### With data attributes
+### DOM API
 
-`data-with-js-add-attribute="role:button"`
-`data-with-js-remove-attribute="hidden"`
-`data-with-js-add-class="sr-only"`
-`data-with-js-remove-class="hidden"`
-`data-with-js-add-style="display: none;"`
-`data-with-js-remove-style="display"`
-
-Or a combination of those:
-
-`data-with-js="<JSON>"`
-
-### With classes
-
+`.js-with-js--remove`
 `.js-with-js--add-attribute__role--button`
 `.js-with-js--remove-attribute__hidden`
 `.js-with-js--add-class__sr-only`
 `.js-with-js--remove-class__hidden`
-`.js-with-js--add-style__display--none`
-`.js-with-js--remove-style__display`
+
+### JS API
+
+```
+// Applies the operations to the given `element`
+withJS(element);
+// Looks up all elements matching given `selector` in the document
+// and applies the operations describe by their classes
+withJS('selector');
+// Looks up all elements with the given `selector` within the given `element`
+withJS('selector', element);
+// Defaults are set too
+withJS();
+// Is the same as
+withJS('[class*="js-with-js--"]',document)
+```
 
 Installation
 ---
