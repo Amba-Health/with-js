@@ -9,16 +9,5 @@ module.exports = {
   },
   parserOptions: {
     sourceType: 'module'
-  },
-  "overrides": [
-    {
-      "files": [
-        "**/__tests__/**/*"
-      ],
-      rules: {
-        // Tests will require dev only packages
-        "node/no-unpublished-require": 0
-      }
-    }
-  ]
+  }
 }
