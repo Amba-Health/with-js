@@ -1,5 +1,8 @@
 // A hash of the available operations
 export const AVAILABLE_OPERATIONS = {
+  remove(element) {
+    element.parentElement.removeChild(element);
+  },
   addAttribute(element, attributeName, attributeValue) {
     element.setAttribute(attributeName, attributeValue);
   },

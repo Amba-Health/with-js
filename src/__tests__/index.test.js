@@ -33,3 +33,11 @@ test('it removes one or more classes', t => {
   t.false(el.classList.contains('hide'));
   t.false(el.classList.contains('fade'));
 });
+
+test('it removes the element', t => {
+  const el = document.createElement('div');
+  document.body.appendChild(el);
+  el.className = 'js-with-js--remove';
+  withJS(el);
+  t.falsy(document.querySelector('div'));
+});
