@@ -1,5 +1,22 @@
 // A hash of the available operations
-export const AVAILABLE_OPERATIONS = {};
+export const AVAILABLE_OPERATIONS = {
+  addAttribute(element, attributeName, attributeValue) {
+    element.setAttribute(attributeName, attributeValue);
+  },
+  removeAttribute(element, attributeName) {
+    element.removeAttribute(attributeName);
+  },
+  addClass(element, ...classes) {
+    classes.forEach(className => {
+      element.classList.add(className);
+    });
+  },
+  removeClass(element, ...classes) {
+    classes.forEach(className => {
+      element.classList.remove(className);
+    });
+  }
+};
 
 /**
  * Runs the given `updates` on the provided `element`.
@@ -11,8 +28,14 @@ export const AVAILABLE_OPERATIONS = {};
 export function run(
   updates,
   element,
-  { availableOperations = AVAILABLE_OPERATIONS }
-) {}
+  { availableOperations = AVAILABLE_OPERATIONS } = {}
+) {
+  updates.forEach(([operationName, ...args]) => {
+    if (availableOperations[operationName]) {
+      availableOperations[operationName](element, ...args);
+    }
+  });
+}
 
 /**
  * Gets updates listed in the classes of given `element`
