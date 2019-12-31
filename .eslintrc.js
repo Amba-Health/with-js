@@ -5,9 +5,17 @@ module.exports = {
   ],
   parser: 'babel-eslint',
   env: {
-    browser: true
+    browser: true,
+    node: true
   },
   parserOptions: {
     sourceType: 'module'
-  }
+  },
+  overrides: [{
+    files: ['(*.config.js|.*.js)'],
+    env: {
+      node: true,
+      browser: false
+    }
+  }]
 }
