@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint '**/*.js'",
     "test": "nyc --reporter=text ava",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production && NO_OPTIMIZATION=true webpack --mode production"
   },
   "author": "Romaric Pascal <hello@romaricpascal.is>",
   "license": "MIT",
