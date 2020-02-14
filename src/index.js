@@ -1,10 +1,15 @@
+/**
+ * The default selector for looking up elements
+ */
 export const SELECTOR = '[class*="js-with-js--"]';
 
 /**
- *
- * @param {string|HTMLElement|Object} targetOrOptions
- * @param {HTMLElement|Object} parentOrOptions -
- * @param {Object} options
+ *  A wrapper for handling the different way of calling withJS:
+ *  - withJS([options: Object])
+ *  - withJS(target: HTMLElement,[options: Object])
+ *  - withJS(target: string, [options: Object])
+ *  - withJS(target: string, parent: HTMLElement, [options: Object])
+ *  @see runWithJS for description of options
  */
 export default function withJS(...args) {
   if (typeof args[0] == 'string') {
@@ -36,44 +41,46 @@ export default function withJS(...args) {
 }
 
 /**
- * Actually runs the updates
+ * Runs the updates
  * @param {Object} options
  * @param {string | HTMLElement} [options.target='[class*="js-with-js--"]'] - The element to update, or a selector to lookup the elements to update
  * @param {HTMLElement} [options.parent=document] - If `target` is a selector, the element within which the lookup will happen
- * @param {Function} [options.getUpdates = getUpdatesFromClasses] - The function for retrieving the updates on the element
+ * @param {Function} [options.updates = getUpdatesFromClasses] - The function for retrieving the updates on the element
  * @param {HTMLElement} [options.run=run] - The function for running the updates on the element
  */
 function runWithJS({
   target = SELECTOR,
   parent = document,
   run = applyUpdates,
-  getUpdates = getUpdatesFromClasses
+  updates = getUpdatesFromClasses
 } = {}) {
   if (typeof target == 'string') {
     return [...parent.querySelectorAll(target)].forEach(el => {
-      run(getUpdates(el), el);
+      run(updates(el), el);
     });
   }
-  return run(getUpdates(target), target);
+  return run(updates(target), target);
 }
 
-// A hash of the available operations
+/**
+ * A default list of available operations
+ */
 export const AVAILABLE_OPERATIONS = {
   remove(element) {
     element.parentElement.removeChild(element);
   },
-  addAttribute(element, attributeName, attributeValue) {
+  'add-attribute': function(element, attributeName, attributeValue) {
     element.setAttribute(attributeName, attributeValue);
   },
-  removeAttribute(element, attributeName) {
+  'remove-attribute': function(element, attributeName) {
     element.removeAttribute(attributeName);
   },
-  addClass(element, ...classes) {
+  'add-class': function(element, ...classes) {
     classes.forEach(className => {
       element.classList.add(className);
     });
   },
-  removeClass(element, ...classes) {
+  'remove-class': function(element, ...classes) {
     classes.forEach(className => {
       element.classList.remove(className);
     });
@@ -81,11 +88,12 @@ export const AVAILABLE_OPERATIONS = {
 };
 
 /**
- * Runs the given `updates` on the provided `element`.
+ * Appsier the given `updates` on the provided `element`.
  * A list of `availableOperations` can be provided as option
- * @param {HTMLElement} element The element to update
- * @param {Array} updates The list of updates to perform, in the `[operationName, ...arguments]`
- * @param {Object} options.availableOperations The available operations
+ * @param {Array} updates - The list of updates to perform, in the `[operationName, ...arguments]` format
+ * @param {HTMLElement} element - The element to update
+ * @param {Object} options
+ * @param {Object} options.availableOperations An `operationName: function()` hash of the operations available to run
  */
 export function applyUpdates(
   updates,
@@ -103,8 +111,7 @@ export function applyUpdates(
  * Gets updates listed in the classes of given `element`
  * @param {HTMLElement|string|string[]} elementOrClasses - The element on which to read the classes, a `className` string or directly an Array of strings
  * @returns {Array[]} An array of operations to perform,
- *                    each as an array with the operation name as first element,
- *                    and the arguments (if any) as following elements
+ *                    in the `[operationName, ...arguments]` format
  */
 export function getUpdatesFromClasses(
   elementOrClasses,
@@ -115,11 +122,11 @@ export function getUpdatesFromClasses(
   } = {}
 ) {
   if (typeof elementOrClasses == 'string') {
-    return getUpdatesFromClasses(elementOrClasses.split(' '));
+    return getUpdatesFromClasses(elementOrClasses.split(' '), arguments[1]);
   }
 
   if (elementOrClasses instanceof window.HTMLElement) {
-    return getUpdatesFromClasses([...elementOrClasses.classList]);
+    return getUpdatesFromClasses([...elementOrClasses.classList], arguments[1]);
   }
 
   return elementOrClasses
