@@ -10,8 +10,8 @@
   "scripts": {
     "lint": "eslint '**/*.js'",
     "test": "nyc --reporter=text ava",
-    "prebuild": "babel src/index.js -o dist/withjs.js",
-    "build": "terser dist/withjs.js -o dist/withjs.min.js --compress --mangle"
+    "prebuild": "babel src/index.js -o dist/withjs.js --source-maps=inline",
+    "build": "terser dist/withjs.js -o dist/withjs.min.js --source-map 'content=inline'"
   },
   "author": "Romaric Pascal <hello@romaricpascal.is>",
   "license": "MIT",
