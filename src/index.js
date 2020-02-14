@@ -82,7 +82,7 @@ export const AVAILABLE_OPERATIONS = {
 
 /**
  * Runs the given `updates` on the provided `element`.
- * A list of `availableOperations` can be provided as
+ * A list of `availableOperations` can be provided as option
  * @param {HTMLElement} element The element to update
  * @param {Array} updates The list of updates to perform, in the `[operationName, ...arguments]`
  * @param {Object} options.availableOperations The available operations
@@ -101,10 +101,19 @@ export function applyUpdates(
 
 /**
  * Gets updates listed in the classes of given `element`
- * @param {HTMLElement} element
- * @returns {Array<Array>} An array of operations to perform
+ * @param {HTMLElement|string|string[]} elementOrClasses - The element on which to read the classes, a `className` string or directly an Array of strings
+ * @returns {Array[]} An array of operations to perform,
+ *                    each as an array with the operation name as first element,
+ *                    and the arguments (if any) as following elements
  */
-export function getUpdatesFromClasses(elementOrClasses) {
+export function getUpdatesFromClasses(
+  elementOrClasses,
+  {
+    marker = 'js-with-js--',
+    operationToArgumentsSeparator = '__',
+    argumentToArgumentSeparator = '--'
+  } = {}
+) {
   if (typeof elementOrClasses == 'string') {
     return getUpdatesFromClasses(elementOrClasses.split(' '));
   }
@@ -114,14 +123,14 @@ export function getUpdatesFromClasses(elementOrClasses) {
   }
 
   return elementOrClasses
-    .filter(c => /^js-with-js--.+/.test(c))
+    .filter(c => new RegExp(`^${marker}.+`).test(c))
     .map(c => {
-      const operationDescription = c.replace(/^js-with-js--/, '');
+      const operationDescription = c.replace(new RegExp(`^${marker}`), '');
       const [operationName, argumentsDescription] = operationDescription.split(
-        '__'
+        operationToArgumentsSeparator
       );
       if (argumentsDescription) {
-        const args = argumentsDescription.split('--');
+        const args = argumentsDescription.split(argumentToArgumentSeparator);
         return [operationName, ...args];
       } else {
         return [operationName];
