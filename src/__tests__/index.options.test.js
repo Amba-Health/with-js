@@ -1,16 +1,58 @@
 import test from 'ava';
 import browserEnv from 'browser-env';
+import withJS from '..';
 browserEnv();
 
 test.beforeEach(() => {
   document.body.innerHTML = '';
+  document.body.appendChild(createDivThatWillHaveRoleButton());
 });
-test.todo('it allows the configuration of the available operations');
-test.todo('it allows the configuration of the class prefix');
-test.todo(
-  'it allows the configuration of the separator between operations and arguments'
+
+test.serial.cb('it allows setting options after the selector and parent', t => {
+  withJS('div', document.documentElement, {
+    run() {
+      t.end();
+    }
+  });
+});
+test.serial.cb('it allows setting options after just the selector', t => {
+  withJS('div', {
+    run() {
+      t.end();
+    }
+  });
+});
+test.serial.cb('it allows setting options after just the element', t => {
+  withJS(document.querySelector('div'), {
+    run() {
+      t.end();
+    }
+  });
+});
+test.serial.cb(
+  'it allows the configuration of the function to get the updates',
+  t => {
+    withJS({
+      getUpdates() {
+        t.end();
+        return [];
+      }
+    });
+  }
 );
-test.todo('it allows the configuration of the separator between arguments');
-test.todo('it allows setting options after just the selector');
-test.todo('it allows setting options after just the element');
-test.todo('it allows setting options as sole parameters');
+test.serial.cb(
+  'it allows the configuration of the function to apply the updates',
+  t => {
+    withJS({
+      run() {
+        t.end();
+      }
+    });
+  }
+);
+
+function createDivThatWillHaveRoleButton() {
+  const el = document.createElement('div');
+  el.classList.add('js-with-js--addAttribute__role--button');
+  return el;
+}

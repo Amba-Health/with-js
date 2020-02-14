@@ -1,12 +1,60 @@
 export const SELECTOR = '[class*="js-with-js--"]';
 
-export default function withJS(target = SELECTOR, parent = document) {
-  if (typeof target == 'string') {
-    return [...parent.querySelectorAll(target)].forEach(el => {
-      run(getUpdatesFromClasses(el), el);
+/**
+ *
+ * @param {string|HTMLElement|Object} targetOrOptions
+ * @param {HTMLElement|Object} parentOrOptions -
+ * @param {Object} options
+ */
+export default function withJS(...args) {
+  if (typeof args[0] == 'string') {
+    // First argument is a CSS selector, we need to
+    // check whether the second is an object or an
+    if (args[1] instanceof HTMLElement) {
+      runWithJS({
+        target: args[0],
+        parent: args[1],
+        ...(args[2] || {})
+      });
+    } else {
+      runWithJS({
+        target: args[0],
+        ...(args[1] || {})
+      });
+    }
+  } else if (args[0] instanceof HTMLElement) {
+    // First argument is the element on which to run withJS
+    runWithJS({
+      target: args[0],
+      ...(args[1] || {})
+    });
+  } else {
+    runWithJS({
+      ...args[0]
     });
   }
-  return run(getUpdatesFromClasses(target), target);
+}
+
+/**
+ * Actually runs the updates
+ * @param {Object} options
+ * @param {string | HTMLElement} [options.target='[class*="js-with-js--"]'] - The element to update, or a selector to lookup the elements to update
+ * @param {HTMLElement} [options.parent=document] - If `target` is a selector, the element within which the lookup will happen
+ * @param {Function} [options.getUpdates = getUpdatesFromClasses] - The function for retrieving the updates on the element
+ * @param {HTMLElement} [options.run=run] - The function for running the updates on the element
+ */
+function runWithJS({
+  target = SELECTOR,
+  parent = document,
+  run = applyUpdates,
+  getUpdates = getUpdatesFromClasses
+} = {}) {
+  if (typeof target == 'string') {
+    return [...parent.querySelectorAll(target)].forEach(el => {
+      run(getUpdates(el), el);
+    });
+  }
+  return run(getUpdates(target), target);
 }
 
 // A hash of the available operations
@@ -39,7 +87,7 @@ export const AVAILABLE_OPERATIONS = {
  * @param {Array} updates The list of updates to perform, in the `[operationName, ...arguments]`
  * @param {Object} options.availableOperations The available operations
  */
-export function run(
+export function applyUpdates(
   updates,
   element,
   { availableOperations = AVAILABLE_OPERATIONS } = {}
