@@ -1,5 +1,5 @@
 import test from 'ava';
-import { getUpdatesFromClasses } from '../lib';
+import { getUpdatesFromClasses } from '..';
 
 import browserEnv from 'browser-env';
 browserEnv();
