@@ -10,16 +10,20 @@
   "scripts": {
     "lint": "eslint '**/*.js'",
     "test": "nyc --reporter=text ava",
-    "build": "webpack --mode production && NO_OPTIMIZATION=true webpack --mode production"
+    "prebuild": "babel src/index.js -o dist/withjs.js",
+    "build": "terser dist/withjs.js -o dist/withjs.min.js --compress --mangle"
   },
   "author": "Romaric Pascal <hello@romaricpascal.is>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.7.7",
+    "@babel/plugin-transform-modules-umd": "^7.8.3",
     "@babel/preset-env": "^7.7.7",
     "ava": "^2.3.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "browser-env": "^3.3.0",
     "eslint": "^6.2.1",
     "eslint-config-defaults": "^9.0.0",
@@ -32,7 +36,7 @@
     "lint-staged": "^9.2.3",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
-    "webpack": "^4.41.5",
+    "terser": "^4.6.3",
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {}
