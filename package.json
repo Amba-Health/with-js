@@ -1,5 +1,5 @@
 {
-  "name": "withjs",
+  "name": "@rhumaric/with-js",
   "version": "0.0.1",
   "description": "A declarative way to add/remove attributes, classes and styles on HTML elements when JS is loaded.",
   "main": "dist/with-js.js",
