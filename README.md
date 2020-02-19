@@ -140,3 +140,21 @@ withJS({
   target: '[class*="js--"]'
 })
 ```
+
+Tooling
+---
+
+- The project is build with [Rollup](https://rollupjs.org), with [Babel](https://babeljs.io/) for compiling to ES5.
+- Tests are run with [Ava](https://github.com/avajs/ava)
+- Linting with [ESLint](https://eslint.org/) is set up on the project and should be triggered on commit thanks to [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged)
+- The project uses [np](https://github.com/sindresorhus/np) to manage NPM releases
+
+### NPM Scripts
+
+The build commands are managed through npm scripts, mostly pass through to one of the modules above:
+
+- `clean` to clean the `dist` directory
+- `lint` for linting the JS files
+- `test` for running the tests
+- `build` for building the browser and CommonJS files. It'll trigger the `postbuild` script to minify the browser build
+- `release` triggers a release to NPM. It'll automatically run `prepack` when creating the package to build the latest version of the library
