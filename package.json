@@ -1,6 +1,6 @@
 {
   "name": "@cookieshq/with-js",
-  "version": "1.0.0-6",
+  "version": "1.0.0",
   "description": "A declarative way to add/remove attributes, classes and styles on HTML elements when JS is loaded.",
   "main": "dist/with-js.cjs.js",
   "module": "src/index.js",
