@@ -1,6 +1,7 @@
 import test from 'ava';
 import browserEnv from 'browser-env';
-import withJS, {
+import {
+  withJS,
   getUpdatesFromClasses,
   applyUpdates,
   AVAILABLE_OPERATIONS

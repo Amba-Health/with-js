@@ -1,7 +1,7 @@
 import test from 'ava';
 import browserEnv from 'browser-env';
 browserEnv();
-import withJS from '..';
+import { withJS } from '..';
 
 test('it adds attribute to the element', t => {
   const el = document.createElement('div');

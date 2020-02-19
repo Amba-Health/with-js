@@ -30,20 +30,20 @@ You might have noticed the `js-with-js--<operation-name>__<argument1>--<argument
 
 1. Install the package with your favourite package manager
 
-  ```sh
-  npm install @cookieshq/with-js
-  ```
+   ```sh
+   npm install @cookieshq/with-js
+   ```
 
-  or
+   or
 
-  ```sh
-  yarn add @cookieshq/with-js
-  ```
+   ```sh
+   yarn add @cookieshq/with-js
+   ```
 
 2. Import in your project
 
   ```js
-  import withJS from '@cookieshq/with-js'
+  import { withJS } from '@cookieshq/with-js'
   ```
 
   or
@@ -56,7 +56,7 @@ You might have noticed the `js-with-js--<operation-name>__<argument1>--<argument
 Alternatively:
 
 ```html
-<script src="https://unpkg.com/@cookieshq/with-js/dist/withjs.min.js" defer>
+<script src="https://unpkg.com/@cookieshq/with-js/dist/withjs.iife.min.js" defer>
 <script async>
   document.addEventListener('DOMContentLoaded', function() {
     withJS();
@@ -96,7 +96,7 @@ You can add extra options by providing your own `run` function
 that passes custom list of operation to the default implementation.
 
 ```js
-import withJS, {applyUpdates,AVAILABLE_OPERATIONS} from '@cookieshq/with-js';
+import { withJS, applyUpdates,AVAILABLE_OPERATIONS } from '@cookieshq/with-js';
 
 withJS({
   run: function(operations, el) {
@@ -120,7 +120,7 @@ or prefer different separators.  You can provide a custom `updates`
 function that provides different options to the default implementation.
 
 ```js
-import withJS, {getUpdatesFromClasses} from '@cookieshq/with-js';
+import { withJS, getUpdatesFromClasses } from '@cookieshq/with-js';
 
 withJS({
   updates: function(el) {

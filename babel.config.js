@@ -1,4 +1,4 @@
 module.exports = {
-  presets: ['@babel/preset-env'],
-  plugins: ['@babel/plugin-transform-modules-umd']
+  presets: [['@babel/env', { modules: false }]]
+  // plugins: ['add-module-exports']
 };

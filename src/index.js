@@ -11,7 +11,7 @@ export const SELECTOR = '[class*="js-with-js--"]';
  *  - withJS(target: string, parent: HTMLElement, [options: Object])
  *  @see runWithJS for description of options
  */
-export default function withJS(...args) {
+export function withJS(...args) {
   if (typeof args[0] == 'string') {
     // First argument is a CSS selector, we need to
     // check whether the second is an object or an

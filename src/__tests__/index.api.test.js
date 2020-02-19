@@ -1,7 +1,7 @@
 import test from 'ava';
 import browserEnv from 'browser-env';
 browserEnv();
-import withJS, { SELECTOR } from '..';
+import { withJS, SELECTOR } from '..';
 
 test.beforeEach(() => {
   document.body.innerHTML = '';

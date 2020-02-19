@@ -2,8 +2,9 @@
   "name": "@cookieshq/with-js",
   "version": "0.0.1",
   "description": "A declarative way to add/remove attributes, classes and styles on HTML elements when JS is loaded.",
-  "main": "dist/with-js.js",
+  "main": "dist/with-js.cjs.js",
   "module": "src/index.js",
+  "browser": "dist/with-js.iife.js",
   "engines": {
     "node": ">=10.19.0"
   },
@@ -11,8 +12,8 @@
     "clean": "rimraf dist",
     "lint": "eslint '**/*.js'",
     "test": "ava",
-    "prebuild": "babel src/index.js -o dist/with-js.js --source-maps=inline",
-    "build": "terser dist/with-js.js -o dist/with-js.min.js --source-map 'content=inline'",
+    "build": "rollup -c",
+    "postbuild": "terser dist/with-js.iife.js -o dist/with-js.iife.min.js --source-map 'content=inline'",
     "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
   },
   "author": "CookiesHQ <hello@cookieshq.co.uk>",
@@ -20,11 +21,9 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.7.7",
-    "@babel/plugin-transform-modules-umd": "^7.8.3",
     "@babel/preset-env": "^7.7.7",
     "ava": "^3.3.0",
     "babel-eslint": "^10.0.3",
-    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "browser-env": "^3.3.0",
     "eslint": "^6.2.1",
     "eslint-config-defaults": "^9.0.0",
@@ -37,6 +36,8 @@
     "lint-staged": "^9.2.3",
     "prettier": "^1.18.2",
     "rimraf": "^3.0.2",
+    "rollup": "^1.31.1",
+    "rollup-plugin-babel": "^4.3.3",
     "terser": "^4.6.3"
   },
   "repository": {
