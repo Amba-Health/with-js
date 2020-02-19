@@ -1,6 +1,8 @@
 With JS
 =======
 
+![File size badge](https://badgen.net/badgesize/normal/https/unpkg.com/@cookieshq/with-js/dist/with-js.iife.min.js)
+
 A declarative way to add or remove attributes and classes on HTML elements when JavaScript is loaded. Extensible to allow running other kind of updates.
 
 Why
