@@ -45,9 +45,11 @@ You might have noticed the `js-with-js--<operation-name>__<argument1>--<argument
    - using ES6 imports
 
       ```js
-      import { withJS } from '@cookieshq/with-js'
+      import { withJS } from '@cookieshq/with-js/src/index'
       withJS();
       ```
+
+      > Note: The `package.json` file does have a `module` field pointing to `src/index.js` which should allow to just import `@cookieshq/with-js`. However, specifying the whole path in the import was the most reliable way to get it working across the major bundlers (Webpack, Rollup and Parcel).
 
    - using Common JS imports
 
@@ -59,7 +61,7 @@ You might have noticed the `js-with-js--<operation-name>__<argument1>--<argument
    - with a `<script>` tag in your HTML
 
       ```html
-      <script src="https://unpkg.com/@cookieshq/with-js/dist/withjs.iife.min.js" defer>
+      <script src="https://unpkg.com/@cookieshq/with-js/dist/with-js.iife.min.js" defer></script>
       <script async>
         document.addEventListener('DOMContentLoaded', function() {
           withJS();
