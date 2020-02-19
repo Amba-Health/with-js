@@ -38,6 +38,9 @@
     "prettier": "^1.18.2",
     "terser": "^4.6.3"
   },
+  "repository": {
+    "url": "https://github.com/cookieshq/with-js"
+  },
   "contributors": [
     "Romaric Pascal <hello@romaricpascal.is> (https://romaricpascal.is)"
   ]
