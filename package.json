@@ -5,13 +5,15 @@
   "main": "dist/with-js.js",
   "module": "src/index.js",
   "engines": {
-    "node": ">=8.12.0"
+    "node": ">=10.19.0"
   },
   "scripts": {
+    "clean": "rimraf dist",
     "lint": "eslint '**/*.js'",
-    "test": "nyc --reporter=text ava",
+    "test": "ava",
     "prebuild": "babel src/index.js -o dist/with-js.js --source-maps=inline",
-    "build": "terser dist/with-js.js -o dist/with-js.min.js --source-map 'content=inline'"
+    "build": "terser dist/with-js.js -o dist/with-js.min.js --source-map 'content=inline'",
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
   },
   "author": "CookiesHQ <hello@cookieshq.co.uk>",
   "license": "MIT",
@@ -33,11 +35,12 @@
     "express": "^4.17.1",
     "husky": "^3.0.4",
     "lint-staged": "^9.2.3",
-    "nyc": "^14.1.1",
     "prettier": "^1.18.2",
+    "rimraf": "^3.0.2",
     "terser": "^4.6.3"
   },
   "repository": {
+    "type": "git",
     "url": "https://github.com/cookieshq/with-js"
   },
   "contributors": [
