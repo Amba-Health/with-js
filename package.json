@@ -14,7 +14,7 @@
     "test": "ava",
     "build": "rollup -c",
     "postbuild": "terser dist/with-js.iife.js -o dist/with-js.iife.min.js --source-map 'content=inline'",
-    "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
+    "prepack": "npm run clean && npm run lint -- --fix && npm run test && npm run build"
   },
   "author": "CookiesHQ <hello@cookieshq.co.uk>",
   "license": "MIT",
