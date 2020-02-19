@@ -5,6 +5,7 @@
   "main": "dist/with-js.cjs.js",
   "module": "src/index.js",
   "browser": "dist/with-js.iife.js",
+  "unpkg": "dist/with-js.iife.min.js",
   "engines": {
     "node": ">=10.19.0"
   },
