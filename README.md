@@ -30,39 +30,42 @@ You might have noticed the `js-with-js--<operation-name>__<argument1>--<argument
 
 1. Install the package with your favourite package manager
 
-   ```sh
-   npm install @cookieshq/with-js
-   ```
+    ```sh
+    npm install @cookieshq/with-js
+    ```
 
    or
 
-   ```sh
-   yarn add @cookieshq/with-js
-   ```
+    ```sh
+    yarn add @cookieshq/with-js
+    ```
 
-2. Import in your project
+2. Import the library and call `withJS()` in your project:
 
-  ```js
-  import { withJS } from '@cookieshq/with-js'
-  ```
+   - using ES6 imports
 
-  or
+      ```js
+      import { withJS } from '@cookieshq/with-js'
+      withJS();
+      ```
 
-  ```js
-  const withJS = require('@cookieshq/with-js')
-  withJS();
-  ```
+   - using Common JS imports
 
-Alternatively:
+      ```js
+      const withJS = require('@cookieshq/with-js')
+      withJS();
+      ```
 
-```html
-<script src="https://unpkg.com/@cookieshq/with-js/dist/withjs.iife.min.js" defer>
-<script async>
-  document.addEventListener('DOMContentLoaded', function() {
-    withJS();
-  });
-</script>
-```
+   - with a `<script>` tag in your HTML
+
+      ```html
+      <script src="https://unpkg.com/@cookieshq/with-js/dist/withjs.iife.min.js" defer>
+      <script async>
+        document.addEventListener('DOMContentLoaded', function() {
+          withJS();
+        });
+      </script>
+      ```
 
 > You have to explicitly call `withJS()` for the updates to get applied.
 > This lets you be in control of when and with which options it runs.
@@ -79,8 +82,7 @@ Without any arguments, `withJS()` will hunt for all elements with a class that c
 Extending the library
 ---
 
-Internally the library `run()`s the `updates()` it extracts from each target element(s).
-You can override both behaviors by providing your own functions in a final hash parameter:
+Internally the library `run()`s the `updates()` it extracts from each target element(s). You can override both behaviors by providing your own functions in a final hash parameter:
 
 ```js
 withJs({run: customRunFunction, updates: customUpdatesFunction});
