@@ -22,7 +22,6 @@
     "@babel/preset-env": "^7.7.7",
     "ava": "^3.3.0",
     "babel-eslint": "^10.0.3",
-    "babel-loader": "^8.0.6",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "browser-env": "^3.3.0",
     "eslint": "^6.2.1",
