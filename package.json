@@ -7,7 +7,7 @@
   "browser": "dist/with-js.iife.js",
   "unpkg": "dist/with-js.iife.min.js",
   "engines": {
-    "node": ">=10.19.0"
+    "node": ">=12.8.0"
   },
   "scripts": {
     "clean": "rimraf dist",
